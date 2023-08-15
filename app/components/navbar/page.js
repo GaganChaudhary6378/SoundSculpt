@@ -1,23 +1,20 @@
 "use client"
 import Image from 'next/image'
 import { Fragment } from 'react'
+import { useState,useEffect} from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { UserAuth } from '@/app/context/AuthContext'
+import { UserAuth } from '../../context/AuthContext'
+
 
 const navigation = [
   { name: 'Dashboard', href: '/components/dashboard', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
+  { name: 'Transcript', href: '/components/transcript', current: false },
+  { name: 'Audio', href: '/components/audio', current: false },
+  { name: 'Video', href: '/components/video', current: false },
+
 ]
-const handleSignIn =async() => {
-    try {
-        await googleSignIn
-    }catch(error){
-        console.log(error);
-    }
-}
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -25,7 +22,34 @@ function classNames(...classes) {
 export default function Navbar() {
 
     const {user,googleSignIn,logOut} =UserAuth()
+    const [loading,setLoading]= useState(true);
+  
+
+    const handleSignIn =async() => {
+      try {
+          await googleSignIn()
+      }catch(error){
+          console.log(error);
+      }
+  }
+  
+  const handleSignOut = async () => {
+    try {
+      await logOut();
+    }catch (error){
+      console.log(error)
+    }
+  }
     // console.log(user)
+
+    useEffect (() => {
+      const checkAuthentication =async () => {
+        await new Promise ((resolve) => setTimeout(resolve,50));
+        setLoading(false)
+      }
+      checkAuthentication();
+    },[user]);
+    
   return (
     <Disclosure as="nav" className="">
       {({ open }) => (
@@ -82,16 +106,17 @@ export default function Navbar() {
                   <span className="sr-only">View notifications</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
+                
 
-                {/* Profile dropdown */}
-                <Menu as="div" className="relative ml-3">
+                { loading ? null : !user ? (<button className="pl-3" onClick={handleSignIn}>Login</button>) : (
+                  <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       <Image
                         className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                        src={user.photoURL}
                         alt=""
                         width={100}
                         height={100}
@@ -114,7 +139,7 @@ export default function Navbar() {
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Your Profile
+                            {user.displayName}
                           </a>
                         )}
                       </Menu.Item>
@@ -133,14 +158,18 @@ export default function Navbar() {
                           <a
                             href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            onClick={handleSignOut}
                           >
-                            Sign out
+                            Sign Out
                           </a>
                         )}
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
                 </Menu>
+                )}
+                {/* Profile dropdown */}
+                
               </div>
             </div>
           </div>

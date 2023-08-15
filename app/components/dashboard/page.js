@@ -1,7 +1,6 @@
 import react from "react";
 import Navbar from "../navbar/page";
 import Image from "next/image";
-
 export default function Dashboard() {
   return (
     <div>
@@ -14,7 +13,7 @@ export default function Dashboard() {
           <p className="text-green-600 mt-2 font-handjet text-2xl">
             Shaping Knowledge, Crafting Experience.
           </p>
-          <div className="text-green-400 mt-[3rem] leading-7 font-handjet text-2xl">
+          <div className="text-green-400 mt-[3rem] leading-7 font-handjet text-xl">
             Dive into a realm of limitless possibilities with our groundbreaking
             app. Seamlessly extracting <br></br> YouTube video transcripts, it
             conjures succinct summaries and crafts audio magic for both.{" "}
