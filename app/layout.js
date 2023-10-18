@@ -1,11 +1,9 @@
 
 import './globals.css'
 import { Inter } from 'next/font/google'
-
-import { AuthContextProvider } from './context/AuthContext'
-
+import { ClerkProvider } from '@clerk/nextjs'
 const inter = Inter({ subsets: ['latin'] })
-
+import { neobrutalism } from "@clerk/themes";
 
 export const metadata = {
   title: 'Create Next App',
@@ -16,10 +14,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthContextProvider>
+        <ClerkProvider appearance={{
+          baseTheme: neobrutalism
+        }}>
           {children}
-        </AuthContextProvider>
-       </body>
+        </ClerkProvider>
+      </body>
     </html>
   )
 }
