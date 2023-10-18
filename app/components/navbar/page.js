@@ -14,7 +14,7 @@ import {
 
 
 const navigation = [
-  { name: 'Dashboard', href: '/components/dashboard', current: true },
+  { name: 'Dashboard', href: '/', current: true },
   { name: 'Transcript', href: '/components/transcript', current: false },
   { name: 'Audio', href: '/components/audio', current: false },
   { name: 'Video', href: '/components/video', current: false },
@@ -91,7 +91,7 @@ export default function Navbar() {
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
 
-                <div className='pl-3'>
+                <div className='pl-3 text-white'>
                   <SignedIn>
                     {/* Mount the UserButton component */}
                     <UserButton />

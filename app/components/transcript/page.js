@@ -17,7 +17,7 @@ function Transcript() {
 
     return (
         <div>
-            <Navbar />
+       
             This is my trancript page
         </div>
     )
